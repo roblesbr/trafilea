@@ -1,12 +1,11 @@
 @Chrome
-Feature: BaseScenarios
 
 Feature: Shopping and Checkout Process
 
   Scenario: Complete the checkout process with invalid credit card details
     Given I go to Shapermint
-    When I enter the first product within the section "Our Best Sellers"
-    And I click on the "add to cart" button and proceed to checkout from the cart
+    When I enter the first product within the section Our Best Sellers
+    And I click on the add to cart button and proceed to checkout from the cart
     And I complete email data and shipping address data with the following information
       | email      | qa.mail@gmail.com  |
       | firstName  | My Name            |

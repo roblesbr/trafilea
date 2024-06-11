@@ -1,5 +1,5 @@
 @Api
-Feature: Test GoRest API
+Feature: Go Rest Api
 
   Scenario: Get list of users and validate the first active user
     Given I send a GET request to "https://gorest.co.in/public/v1/users"
