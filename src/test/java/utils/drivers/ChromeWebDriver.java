@@ -11,7 +11,7 @@ public class ChromeWebDriver {
     private static WebDriver driver;
 
     public static void setupChromeDriver() {
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().clearDriverCache().setup();
     }
 
     public static WebDriver loadChromeDriver(String chromeArgument) {
