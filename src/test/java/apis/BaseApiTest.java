@@ -18,39 +18,42 @@ public class BaseApiTest {
     private static String firstUserId;
 
     public static void setBaseUri() {
+        // Set the base URI for the REST Assured requests
         RestAssured.baseURI = baseUrl;
     }
 
     public static RequestSpecification authTwitter() {
+        // Authenticate to Twitter API using OAuth credentials
         httpRequest = given().auth().oauth(consumerKey, consumerSecret, accessToken, accessTokenSecret);
         return httpRequest;
     }
 
     public static Response sendGetRequest(String url) {
+        // Send a GET request and verify response status and content type
         return given().get(url).then().assertThat().statusCode(200)
                 .and().contentType(ContentType.JSON).extract().response();
     }
 
     public static Response updateUser(Map<String, Object> user) {
-        // Realizar la solicitud GET para obtener el ID del primer usuario
+        // Send a GET request to obtain the ID of the first user
         Response getResponse = given()
                 .header("Authorization", bearerToken) // Bearer Token
                 .get("https://gorest.co.in/public/v1/users")
                 .then().extract().response();
 
-        // Verificar el código de estado de la respuesta GET
+        // Verify the status code of the GET response
         int statusCode = getResponse.getStatusCode();
         if (statusCode != 200) {
-            throw new RuntimeException("Error al obtener la lista de usuarios. Código de estado: " + statusCode);
+            throw new RuntimeException("Error while fetching the list of users. Status code: " + statusCode);
         }
 
-        // Obtener el ID del primer usuario
+        // Get the ID of the first user
         firstUserId = getResponse.jsonPath().getString("data[0].id");
 
-        // Imprimir el ID para verificar
-        System.out.println("El ID del primer usuario es: " + firstUserId);
+        // Print the ID for verification
+        System.out.println("The ID of the first user is: " + firstUserId);
 
-        // Realizar la solicitud PATCH utilizando el ID del primer usuario
+        // Send a PATCH request using the ID of the first user
         Response patchResponse = given()
                 .header("Authorization", bearerToken)
                 .contentType(ContentType.JSON)
@@ -58,15 +61,11 @@ public class BaseApiTest {
                 .patch("https://gorest.co.in/public/v1/users/" + firstUserId)
                 .then().assertThat().statusCode(200).extract().response();
 
-        // Imprimir el cuerpo de respuesta del servidor
-        System.out.println("Respuesta del servidor:");
+        // Print the server response body
+        System.out.println("Server Response:");
         System.out.println(patchResponse.getBody().asString());
 
-        // Devolver la respuesta de la solicitud PATCH
+        // Return the response of the PATCH request
         return patchResponse;
     }
-
-
-
-
 }

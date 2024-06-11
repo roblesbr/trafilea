@@ -1,12 +1,13 @@
 package pages;
 
-import static utils.selenium.Driver.browser;
-
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import utils.settings.Settings;
 
 import java.util.List;
+
+import static utils.selenium.Driver.browser;
 
 public class BasePage extends Page {
 
@@ -19,6 +20,37 @@ public class BasePage extends Page {
         String baseUrl = Settings.baseUrl;
         browser().navigate().to(baseUrl);
         System.out.println("Welcome to Product - Selenium Automation Framework");
+    }
+
+    public void scrollDownAndClick() throws InterruptedException {
+        // Realizar el intento de hacer clic
+        boolean addToCartClicked = false;
+        try {
+            WebElement addToCartButton = driver.findElement(By.xpath("//*/text()[normalize-space(.)='ADD TO CART']/parent::*"));
+            addToCartButton.click();
+            addToCartClicked = true;
+        } catch (Exception e) {
+            // El botón no se encontró, se realiza scroll down
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,600);");
+            Thread.sleep(2000);
+        }
+
+        // Si el botón no fue clickeado, intenta hacer clic después del scroll down
+        if (!addToCartClicked) {
+            try {
+                WebElement addToCartButton = driver.findElement(By.xpath("//*/text()[normalize-space(.)='ADD TO CART']/parent::*"));
+                addToCartButton.click();
+            } catch (Exception e) {
+                // Si aún no se encuentra el botón, puedes manejar el error aquí
+                System.out.println("El botón ADD TO CART no se encontró después del scroll.");
+            }
+        }
+    }
+
+    public void enter() {
+        Actions actions = new Actions(driver);
+        actions.sendKeys(Keys.ENTER).perform();
     }
 
     public void validatePageTitle(String expectedTitle) {
