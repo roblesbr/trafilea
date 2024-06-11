@@ -21,6 +21,7 @@ public class ChromeWebDriver {
         ////
         ChromeOptions options = new ChromeOptions();
         options.addArguments(chromeArgument);
+        options.addArguments("--start-maximized"); // Agregar esta línea para abrir Chrome maximizado
         ////
         driver = new ChromeDriver(driverService, options);
         return driver;
