@@ -1,6 +1,7 @@
 package steps;
 
 import apis.BaseApiTest;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -26,7 +27,7 @@ public class ShapermintApiScenariosSteps {
         System.out.println("Sent GET request to: " + url);
     }
 
-    @When("^I get the list of users$")
+    @And("^I get the list of users$")
     public void getListOfUsers() {
         // Extract the list of users from the response
         users = response.jsonPath().getList("data");
